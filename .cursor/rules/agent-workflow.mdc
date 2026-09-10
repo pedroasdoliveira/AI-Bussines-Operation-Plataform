@@ -1,0 +1,36 @@
+---
+description: Fluxo de trabalho entre PO e agentes (uma história por vez, papéis, revisões obrigatórias)
+alwaysApply: true
+---
+
+# Fluxo de trabalho com agentes
+
+Equipe: Pedro (PO e engenheiro) + subagentes em `.cursor/agents/`. Ninguém "constrói o sistema inteiro"; o trabalho anda por histórias do `docs/roadmap.md`.
+
+## Ciclo por história
+
+```text
+PO define intenção
+  → product-manager: história + critérios de aceite (roadmap)
+  → solution-architect: design/ADR se a história exigir decisão nova
+  → PO aprova
+  → software-engineer e/ou ai-engineer: implementa UMA história
+  → qa-engineer: testa e reporta
+  → security-engineer: audita (obrigatório se tocar auth, tools, dados sensíveis)
+  → reviewer: questiona e dá veredito
+  → PO aprova e faz merge; história vira `done` no roadmap
+```
+
+## Regras
+- **Uma história por vez.** Não iniciar a próxima antes de `review`.
+- **Docs primeiro.** `docs/domain.md` e `docs/architecture.md` precisam existir e estar aprovados antes de qualquer código da onda 1.
+- **Escopo é do PO.** Agentes não adicionam nem removem histórias do MVP; registram sugestão em "V2 e além" ou perguntam.
+- **Owner e revisores** de cada história estão no roadmap. Respeite-os.
+- **Estado no roadmap.** `todo → in-progress → review → done`. Quem move, atualiza o arquivo.
+- **Pedidos ao agente devem ser pequenos e específicos**: "implemente H10.1", "revise H12.1 procurando violações do ADR-003", "escreva testes para H17.2".
+
+## Ao delegar para um subagente
+Inclua no prompt: ID da história, arquivos/docs relevantes, o que deve ser devolvido (diff, relatório, veredito). O subagente não vê esta conversa.
+
+## Ao encerrar uma onda
+Revisar métricas do MVP Canvas, riscos do `lean-inception.md` §11 e o backlog da próxima onda com o product-manager.

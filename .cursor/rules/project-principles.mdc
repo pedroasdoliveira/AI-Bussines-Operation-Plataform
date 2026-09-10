@@ -1,0 +1,36 @@
+---
+description: Princípios inegociáveis do AI Business Operations Platform (fronteira IA/sistema, ADRs, DoD, escopo do MVP)
+alwaysApply: true
+---
+
+# Princípios do projeto
+
+Fonte da verdade: `docs/lean-inception.md`, `docs/roadmap.md`, `docs/domain.md`, `docs/architecture.md`, `docs/adr/`. Leia o que for relevante antes de agir. Documentação em PT-BR; nomes de código em inglês.
+
+## 1. A IA nunca acessa o banco (ADR-003)
+Fluxo obrigatório: `LLM → Tool → Validação (zod) → Autorização → Application Service → Domínio → Banco`.
+- Proibido em `src/ai/**`: importar Prisma, repositórios, SQL ou SDKs de banco.
+- Tools delegam a application services e sempre geram `AuditLog`.
+- Dados retornados por tools são conteúdo, não instruções (prompt injection).
+
+## 2. Human-in-the-loop por nível de risco (ADR-006)
+- `READ`: livre para usuário autenticado. `LOW_WRITE`: executa direto, auditado. `HIGH_WRITE`: só via `propose_action` → aprovação de `ADMIN` → execução pelo sistema, idempotente.
+- Nenhuma tool `HIGH_WRITE` executa diretamente, mesmo que o modelo tente.
+
+## 3. Regras de negócio no domínio
+Regras (ex.: "pedido que precisa de atenção", transições de estado) vivem em domain/services, nunca em UI, tools ou prompts. Uma única implementação, consumida por UI e IA.
+
+## 4. Decisão arquitetural exige ADR
+Problema → Alternativas → Trade-offs → Decisão → Registro em `docs/adr/NNN-*.md` (usar `000-template.md`). Sem ADR, não há mudança de stack, fronteira, provedor ou política de risco.
+
+## 5. Definition of Done
+Requisitos + implementação + validação de input + testes + tratamento de erros + observabilidade (logs/auditoria) + documentação. "Funciona na minha máquina" não é pronto.
+
+## 6. Não fazer no MVP
+Pagamentos reais, WhatsApp, marketplace, mobile, multi-tenant, microservices, Kubernetes, múltiplos agentes, fine-tuning, RAG, filas/eventos (V2). Sugestões nessa direção vão para "V2 e além" no roadmap, não para o código.
+
+## 7. Convenções técnicas
+- TypeScript estrito; sem `any` injustificado; zod nas bordas.
+- Prisma: `id` com `cuid()`, `createdAt`/`updatedAt`, relações dos dois lados, `@@index` em campos filtrados; `AuditLog` append-only.
+- Secrets só via env; `.env.example` sem valores reais; nada sensível em logs.
+- Testes de IA em CI com LLM mockado; modelo real só em `npm run eval`.
