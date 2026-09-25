@@ -1,8 +1,8 @@
 # ADR-006 — Política de human-in-the-loop por nível de risco
 
-- **Status:** Proposed (confirmar em `docs/architecture.md`, Fase 2)
-- **Data:** 2026-09-09
-- **Autor:** product-manager (decisão do PO em 2026-09-09)
+- **Status:** Accepted (confirmado em H00.2, 2026-09-24, por solution-architect / Grok 4.7; decisão do PO em 2026-09-09)
+- **Data:** 2026-09-09 (confirmação: 2026-09-24)
+- **Autor:** product-manager (decisão do PO); solution-architect (confirmação)
 - **Revisores:** solution-architect, security-engineer, ai-engineer
 
 ## Contexto
@@ -30,9 +30,15 @@ No MVP: `update_order_priority` (LOW_WRITE) e `cancel_order` (HIGH_WRITE via `pr
 - Ganhamos: segregação de funções, rastreabilidade completa da decisão, tese demonstrável em J2.
 - Perdemos: mais uma entidade e uma tela no MVP (F17/F18) e a única feature de alta incerteza técnica do MVP.
 
+## Confirmação (H00.2)
+
+Confirmado sem alteração de política. Expiração preguiçosa, execução síncrona na aprovação e `AIAction.id` como chave de idempotência estão em `docs/architecture.md` §7. O exemplo `cancel_order` desta decisão é o tipo `AIActionType.CANCEL_ORDER`, não uma tool: a única tool `HIGH_WRITE` é `propose_action`.
+
 ## Consequências
 
 - `AIAction` com estados `PROPOSED → APPROVED → EXECUTED | FAILED`, `PROPOSED → REJECTED`, `PROPOSED → EXPIRED` (24h configurável).
+- **Limitação aceita no MVP (decisão do PO, 2026-09-09, revisão de H00.1):** um `ADMIN` pode aprovar uma proposta criada em seu próprio nome. O ganho do human-in-the-loop aqui é a pausa e a revisão explícita (a IA nunca executa), não a segregação a quatro olhos; o seed tem um único `ADMIN` e o `AuditLog` registra `proposedBy = decidedBy`. A fila exibe aviso "você propôs esta ação". Segregação proposer ≠ approver configurável fica em "V2 e além".
+- No MVP, `CANCELLED` só é atingido por `AIAction` aprovada (e seed); não há cancelamento direto pela UI. Avanço de status (`PAID → PROCESSING → SHIPPED → DELIVERED`) também não tem gatilho na UI no MVP. Ambos em "V2 e além".
 - Registry recusa executar tool `HIGH_WRITE` diretamente, mesmo que o modelo tente; tentativa é auditada como violação.
 - Golden set inclui tentativas de contornar a política (prompt injection) com meta de 0 execuções indevidas.
 - Reclassificar o risco de uma tool exige ADR ou atualização deste com revisão do security-engineer.

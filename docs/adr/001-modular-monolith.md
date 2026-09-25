@@ -1,8 +1,8 @@
 # ADR-001 — Monólito modular em Next.js
 
-- **Status:** Proposed (confirmar em `docs/architecture.md`, Fase 2)
-- **Data:** 2026-09-09
-- **Autor:** product-manager (proposta de planejamento)
+- **Status:** Accepted (confirmado em H00.2, 2026-09-24, por solution-architect / Grok 4.7; proposta do product-manager em 2026-09-09)
+- **Data:** 2026-09-09 (confirmação: 2026-09-24)
+- **Autor:** product-manager (proposta); solution-architect (confirmação)
 - **Revisores:** solution-architect, reviewer
 
 ## Contexto
@@ -11,7 +11,7 @@ O projeto é desenvolvido por uma pessoa com apoio de agentes de IA, com objetiv
 
 ## Decisão
 
-Construir um **monólito modular** em Next.js (App Router) + TypeScript, com módulos por contexto de negócio (`customers`, `products`, `inventory`, `orders`, `payments`, `ai`, `audit`) e camadas explícitas: UI → application services → domain → infrastructure. A camada de IA é um módulo que só conhece application services por meio de tools.
+Construir um **monólito modular** em Next.js (App Router) + TypeScript. Módulos de negócio: `identity`, `customers`, `products` (inclui `Inventory`), `orders`, `payments`, `assistant` (persistência de `Conversation`, `Message`, `AIAction`) e `audit`. Camadas: UI → application → domain; infrastructure implementa portas. A orquestração do modelo vive em `src/ai` (não é módulo de domínio) e só alcança o sistema por tools que chamam application services.
 
 ## Alternativas consideradas
 
@@ -23,6 +23,10 @@ Construir um **monólito modular** em Next.js (App Router) + TypeScript, com mó
 
 - Ganhamos: um deploy, um repositório, tipos compartilhados ponta a ponta, velocidade.
 - Perdemos: escalabilidade independente por módulo (não é requisito) e disciplina forçada de fronteiras (compensada por regras de dependência e revisão).
+
+## Confirmação (H00.2)
+
+A decisão (monólito modular, um deploy) permanece. O mapa de módulos foi ajustado para coincidir com `docs/domain.md` §1: `inventory` não é módulo (fica em `products`); `ai` deixa de ser módulo de negócio e separa-se em `assistant` (persistência) e `src/ai` (orquestração). Não há ADR substituto — a fronteira e a stack não mudaram.
 
 ## Consequências
 

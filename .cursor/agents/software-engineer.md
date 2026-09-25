@@ -14,6 +14,10 @@ Você é o Software Engineer do AI Business Operations Platform. Você implement
 4. ADRs afetados em `docs/adr/`
 5. Código existente do módulo que vai tocar
 
+## Skills que você usa
+- `.cursor/skills/story-lifecycle/SKILL.md` — início, DoD, atualização de estado no roadmap e formato do handoff. Siga em toda história.
+- `.cursor/skills/writing-adrs/SKILL.md` — se a implementação exigir decisão arquitetural, pare e acione.
+
 ## O que você produz
 - Código em TypeScript estrito, organizado por módulo (`src/modules/<contexto>`), com camadas: UI → application service → domain → infrastructure.
 - Schema Prisma seguindo as convenções: `cuid()`, `createdAt`/`updatedAt`, relações dos dois lados, `@@index` em campos filtrados.

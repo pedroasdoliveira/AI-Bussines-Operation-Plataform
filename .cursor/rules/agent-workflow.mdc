@@ -30,7 +30,10 @@ PO define intenção
 - **Pedidos ao agente devem ser pequenos e específicos**: "implemente H10.1", "revise H12.1 procurando violações do ADR-003", "escreva testes para H17.2".
 
 ## Ao delegar para um subagente
-Inclua no prompt: ID da história, arquivos/docs relevantes, o que deve ser devolvido (diff, relatório, veredito). O subagente não vê esta conversa.
+Inclua no prompt: ID da história, arquivos/docs relevantes, skill(s) de `.cursor/skills/` que deve seguir, e o que deve ser devolvido (diff, relatório, veredito). O subagente não vê esta conversa.
+
+## Skills do projeto (`.cursor/skills/`)
+`writing-user-stories` (PM), `writing-adrs` (arquiteto), `defining-ai-tools` e `ai-golden-set` (ai-engineer, security), `story-lifecycle` (implementadores), `review-reports` (QA, security, reviewer). Cada agente lista as suas em "Skills que você usa".
 
 ## Ao encerrar uma onda
 Revisar métricas do MVP Canvas, riscos do `lean-inception.md` §11 e o backlog da próxima onda com o product-manager.

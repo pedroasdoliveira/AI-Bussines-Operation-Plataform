@@ -1,8 +1,8 @@
 # ADR-004 — Autenticação com Auth.js e papéis OPERATOR/ADMIN
 
-- **Status:** Proposed (confirmar em `docs/architecture.md`, Fase 2)
-- **Data:** 2026-09-09
-- **Autor:** product-manager (proposta de planejamento)
+- **Status:** Accepted (confirmado em H00.2, 2026-09-24, por solution-architect / Grok 4.7; proposta do product-manager em 2026-09-09)
+- **Data:** 2026-09-09 (confirmação: 2026-09-24)
+- **Autor:** product-manager (proposta); solution-architect (confirmação)
 - **Revisores:** solution-architect, security-engineer
 
 ## Contexto
@@ -24,6 +24,10 @@ Usar **Auth.js (NextAuth v5)** com provider de credenciais (e-mail + senha com h
 
 - Ganhamos: autenticação segura com pouco código, dois papéis suficientes para J1 e J2, um ponto único de autorização.
 - Perdemos: flexibilidade de permissões (aceitável; RBAC completo fica para V4).
+
+## Confirmação (H00.2)
+
+Confirmado sem alteração de decisão. A matriz de rotas (conversa própria vs. qualquer conversa; fila em leitura para `OPERATOR`) está em `docs/architecture.md` §11.
 
 ## Consequências
 

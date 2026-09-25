@@ -123,7 +123,7 @@ Ordenados por prioridade. Os três primeiros definem o MVP.
 3. Marina vê que o pagamento foi recusado 3 vezes e pergunta: **"O que você sugere?"**
 4. A IA propõe cancelar o pedido e explica o motivo. Como `cancel_order` é uma ação de alto impacto, a IA chama `propose_action`, que cria uma **ação pendente** (não executa).
 5. Rafael (ADMIN) vê a ação pendente na tela de aprovações, lê o motivo e aprova.
-6. O sistema executa `cancel_order` via service, valida a transição de estado e registra no audit log quem propôs, quem aprovou e o resultado.
+6. O sistema executa `cancel_order` via service, valida a transição de estado e registra no audit log quem propôs, quem aprovou e o resultado. Se o pedido já estava pago (`PAID`/`PROCESSING`), o cancelamento gera um reembolso simulado (`Payment → REFUNDED`) registrado na mesma transação; a tela de aprovações avisa isso antes da decisão.
 7. Marina vê o pedido cancelado e o histórico completo.
 
 ### J3 — Revisão semanal (Rafael) — **pós-MVP (onda 5+)**
@@ -306,7 +306,7 @@ Baselines simuladas (medidas no seed com a UI sem IA vs. com IA):
 | Qual banco de dados? | PostgreSQL 16 em Docker + Prisma ORM. | [ADR-002](./adr/002-postgresql-prisma.md) |
 | Qual provedor/modelo de IA? | Anthropic Claude via Vercel AI SDK. Haiku em dev/testes; Sonnet em demo. Provider abstraído. | [ADR-005](./adr/005-ai-provider-anthropic.md) |
 | Qual estratégia de autenticação? | Auth.js (credentials) + sessão. Enum `Role { OPERATOR, ADMIN }` no `User`, checado na camada de autorização das tools e das rotas. | [ADR-004](./adr/004-authentication-and-roles.md) |
-| Como representar os estados dos pedidos? | Proposta para `domain.md`: `PENDING_PAYMENT → PAID → PROCESSING → SHIPPED → DELIVERED`; `CANCELLED` terminal (permitido a partir de `PENDING_PAYMENT`, `PAID`, `PROCESSING`). Pagamento: `PENDING | FAILED | PAID | REFUNDED`. Regras de atenção: aguardando pagamento > 48h; >= 3 falhas de pagamento; envio atrasado além do SLA (`expectedShipDate`); item sem estoque disponível. | `docs/domain.md` (Fase 1) |
+| Como representar os estados dos pedidos? | `PENDING_PAYMENT → PAID → PROCESSING → SHIPPED → DELIVERED`; `CANCELLED` terminal (permitido a partir de `PENDING_PAYMENT`, `PAID`, `PROCESSING`). Pagamento: `PENDING | FAILED | PAID | REFUNDED`. Regras de atenção: aguardando pagamento ≥ 48h; >= 3 falhas de pagamento; envio atrasado além do SLA (`expectedShipDate`); item sem estoque disponível. | [docs/domain.md §3](./domain.md) — definido em H00.1 |
 | Quais ações exigem aprovação? | Leitura: nenhuma. Escrita de baixo risco (prioridade, nota interna): execução direta + audit. Escrita de alto impacto (cancelar, reembolsar, alterar status): proposta + aprovação de ADMIN. | [ADR-006](./adr/006-human-in-the-loop-policy.md) |
 | Quais tools existirão inicialmente? | Leitura: `get_order`, `get_orders_needing_attention`, `get_customer`, `search_products`, `get_low_stock_products`, `get_failed_payments`. Escrita: `update_order_priority` (direta), `propose_action` (cria pendência; `cancel_order` só executa após aprovação). | Este documento §6 + [ADR-003](./adr/003-ai-tool-boundary.md) |
 | Como será feito o seed? | `prisma/seed.ts` determinístico: faker com seed fixo para volume + cenários explícitos (`#1023`, `#1044`, `#1088`, `#1091`) que ancoram demo e golden set. Usuários `marina@demo` (OPERATOR) e `rafael@demo` (ADMIN). | Roadmap F03 |

@@ -1,8 +1,8 @@
 # ADR-005 — Provedor de IA: Anthropic Claude via Vercel AI SDK
 
-- **Status:** Proposed (confirmar em `docs/architecture.md`, Fase 2)
-- **Data:** 2026-09-09
-- **Autor:** product-manager (decisão do PO em 2026-09-09)
+- **Status:** Accepted (confirmado em H00.2, 2026-09-24, por solution-architect / Grok 4.7; decisão do PO em 2026-09-09)
+- **Data:** 2026-09-09 (confirmação: 2026-09-24)
+- **Autor:** product-manager (decisão do PO); solution-architect (confirmação)
 - **Revisores:** ai-engineer, solution-architect
 
 ## Contexto
@@ -23,6 +23,10 @@ Usar **Anthropic Claude** como provedor, integrado por meio do **Vercel AI SDK**
 
 - Ganhamos: troca de provedor por configuração, streaming e tool calling padronizados, custo baixo em dev.
 - Perdemos: recursos exclusivos de um provedor (aceitável no MVP) e dependência do AI SDK.
+
+## Confirmação (H00.2)
+
+Confirmado sem alteração de decisão. Fábrica, mock de CI e `npm run eval` estão em `docs/architecture.md` §13.
 
 ## Consequências
 

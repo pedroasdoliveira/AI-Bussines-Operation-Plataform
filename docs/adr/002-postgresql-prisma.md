@@ -1,8 +1,8 @@
 # ADR-002 — PostgreSQL com Prisma ORM
 
-- **Status:** Proposed (confirmar em `docs/architecture.md`, Fase 2)
-- **Data:** 2026-09-09
-- **Autor:** product-manager (proposta de planejamento)
+- **Status:** Accepted (confirmado em H00.2, 2026-09-24, por solution-architect / Grok 4.7; proposta do product-manager em 2026-09-09)
+- **Data:** 2026-09-09 (confirmação: 2026-09-24)
+- **Autor:** product-manager (proposta); solution-architect (confirmação)
 - **Revisores:** solution-architect, software-engineer
 
 ## Contexto
@@ -23,6 +23,10 @@ Usar **PostgreSQL 16** (Docker Compose em dev) com **Prisma ORM** para schema, m
 
 - Ganhamos: tipos ponta a ponta, migrations confiáveis, seed simples, `@@index` e constraints declarativos.
 - Perdemos: controle fino sobre SQL em consultas complexas (mitigável com `$queryRaw` em casos pontuais).
+
+## Confirmação (H00.2)
+
+Confirmado sem alteração de decisão. `$queryRaw` fica restrito a `src/infrastructure/database`, nunca a `src/ai`. Detalhe em `docs/architecture.md` §2 e §16.
 
 ## Consequências
 

@@ -2,7 +2,7 @@
 
 Plataforma de operações para pequenos e-commerces em que um assistente de IA consulta pedidos, clientes, produtos, estoque e pagamentos e executa ações operacionais **exclusivamente por meio de ferramentas controladas**. A IA interpreta a intenção; o sistema mantém regras de negócio, autorização, auditoria e aprovação humana determinísticas. Não é um chatbot com acesso ao banco: é um sistema de negócio com uma camada inteligente.
 
-> Status: planejamento concluído (Lean Inception). Próximo passo: Fase 1 — `docs/domain.md`.
+> Status: planejamento concluído (Lean Inception) e domínio aprovado (H00.1). Próximo passo: Fase 2 — `docs/architecture.md` (H00.2).
 
 ## Documentação
 
@@ -11,7 +11,8 @@ Plataforma de operações para pequenos e-commerces em que um assistente de IA c
 - [docs/lean-inception.md](./docs/lean-inception.md) — visão do produto, personas, jornadas, features, sequenciador em ondas, MVP Canvas, decisões.
 - [docs/roadmap.md](./docs/roadmap.md) — backlog por onda com histórias, critérios de aceite, owner e revisores.
 - [docs/adr/](./docs/adr/) — Architecture Decision Records (001 monólito modular, 002 PostgreSQL + Prisma, 003 fronteira IA/tools, 004 autenticação e papéis, 005 provedor Anthropic, 006 human-in-the-loop).
-- `docs/domain.md` e `docs/architecture.md` — a produzir nas Fases 1 e 2.
+- [docs/domain.md](./docs/domain.md) — linguagem ubíqua: entidades, máquinas de estado, regras parametrizadas, glossário, requisitos do seed.
+- `docs/architecture.md` — a produzir na Fase 2 (H00.2).
 
 ## MVP em uma frase
 
@@ -30,6 +31,8 @@ Equipe: um desenvolvedor + agentes do Cursor com papéis definidos em [`.cursor/
 - `reviewer` — revisão cética antes do merge (somente leitura).
 
 Regras compartilhadas em [`.cursor/rules/`](./.cursor/rules/): princípios do projeto e fluxo de trabalho (uma história por vez, revisões obrigatórias, ADR antes de decisão arquitetural).
+
+Skills reutilizáveis em [`.cursor/skills/`](./.cursor/skills/): `writing-user-stories`, `writing-adrs`, `defining-ai-tools`, `ai-golden-set`, `story-lifecycle`, `review-reports`.
 
 ## Stack prevista
 

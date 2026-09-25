@@ -1,8 +1,8 @@
 # ADR-003 — Fronteira entre IA e sistema: acesso exclusivamente por tools
 
-- **Status:** Proposed (confirmar em `docs/architecture.md`, Fase 2)
-- **Data:** 2026-09-09
-- **Autor:** product-manager (proposta de planejamento)
+- **Status:** Accepted (confirmado em H00.2, 2026-09-24, por solution-architect / Grok 4.7; proposta do product-manager em 2026-09-09)
+- **Data:** 2026-09-09 (confirmação: 2026-09-24)
+- **Autor:** product-manager (proposta); solution-architect (confirmação)
 - **Revisores:** solution-architect, ai-engineer, security-engineer
 
 ## Contexto
@@ -25,6 +25,10 @@ Fluxo obrigatório: `LLM → Tool → Validação de input → Autorização →
 
 - Ganhamos: superfície de ataque explícita e testável, auditoria por intenção, autorização em um ponto, possibilidade de trocar o modelo sem tocar no negócio.
 - Perdemos: flexibilidade para perguntas fora do conjunto de tools (a IA deve responder que não consegue) e mais código por capacidade.
+
+## Confirmação (H00.2)
+
+Confirmado sem alteração de decisão. O contrato (`name`, `description`, `inputSchema`, `outputSchema`, `riskLevel`, `authorize`, `execute`) e o pipeline do registry estão normativos em `docs/architecture.md` §6.
 
 ## Consequências
 
