@@ -24,9 +24,10 @@ Quem continuar o projeto lê esta seção antes do chat. O estado canônico est�
 |---|---|---|---|---|
 | H00.1 | `done` | Fable 5.1 | solution-architect | `docs/domain.md` aprovado pelo PO em 2026-09-09. Entidades, máquinas de estado, regras de atenção, glossário. Itens (a)–(f) da §9 foram resolvidos em H00.2. |
 | H00.2 | `done` | Grok 4.7 | solution-architect | `docs/architecture.md` aprovado pelo PO em 2026-09-24. ADRs 001–006 `Accepted`. |
-| H01.1 | `review` | Grok 4.7 | software-engineer | Base Next.js 16 + TypeScript + Prisma 6 + Postgres 16 (Docker). `npm test` (3), `npm run lint`, `npm run dev` em localhost:3000. Pastas de `architecture.md` §§2–4. Aguardando reviewer. |
+| H01.1 | `done` | Grok 4.7 | software-engineer | Base Next.js 16 + TypeScript + Prisma 6 + Postgres 16. Revisão aprovada pelo PO em 2026-09-24. |
+| H02.1 | `review` | Grok 4.7 | software-engineer | Login Auth.js (credentials + JWT), bcrypt, `/dashboard` protegido e `AuditLog` `auth.login_succeeded` / `auth.login_failed` sem senha. Aguardando security-engineer e qa-engineer. |
 
-Próximo passo: H01.1 está em `review`. Não iniciar H02.1 antes de o PO mover H01.1 para `done`.
+Próximo passo: H02.1 está em `review`. Não iniciar H02.2 antes de o PO mover H02.1 para `done`. O helper de papéis é a H02.2.
 
 ---
 
@@ -72,7 +73,7 @@ Como PO, quero `docs/architecture.md` para que as decisões de stack, módulos e
 
 ### E01 — Setup do projeto (F01)
 
-**H01.1 — Projeto inicializado** `review` (2026-09-24 — modelo: **Grok 4.7**)
+**H01.1 — Projeto inicializado** `done` (2026-09-24 — modelo: **Grok 4.7**)
 Como dev, quero o projeto Next.js + TypeScript + Prisma + PostgreSQL (Docker) com lint, formatação e runner de testes para que toda história seguinte parta de uma base padronizada.
 - Owner: software-engineer. Revisores: reviewer.
 - Aceite:
@@ -82,7 +83,7 @@ Como dev, quero o projeto Next.js + TypeScript + Prisma + PostgreSQL (Docker) co
 
 ### E02 — Autenticação e papéis (F02)
 
-**H02.1 — Login com credenciais** `todo`
+**H02.1 — Login com credenciais** `done` (2026-09-24 — modelo: **Grok 4.7**)
 Como Marina, quero entrar com e-mail e senha para acessar a operação.
 - Owner: software-engineer. Revisores: security-engineer, qa-engineer.
 - Aceite:

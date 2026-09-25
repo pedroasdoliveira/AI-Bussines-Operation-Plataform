@@ -3,7 +3,7 @@ import { loadConfig } from "@/shared/config";
 
 describe("loadConfig", () => {
   it("applies domain defaults when optional env is absent", () => {
-    const config = loadConfig({});
+    const config = loadConfig({} as NodeJS.ProcessEnv);
     expect(config.BUSINESS_TIMEZONE).toBe("America/Sao_Paulo");
     expect(config.AWAITING_PAYMENT_HOURS).toBe(48);
     expect(config.PAYMENT_FAILURES_THRESHOLD).toBe(3);

@@ -23,7 +23,9 @@ npm install
 npm run dev
 ```
 
-`npm test` roda o Vitest. `npm run lint` roda o ESLint. O Postgres de desenvolvimento escuta em `localhost:5432` (database `app`); o script de init também cria `app_test` para os testes de integração das próximas histórias.
+`npm test` roda o Vitest. `npm run lint` roda o ESLint. O Postgres de desenvolvimento escuta em `localhost:5432` (database `app`); o script de init também cria `app_test` para os testes de integração.
+
+Depois de `npx prisma migrate dev`, preencha `AUTH_SECRET` no `.env` (não commite). O login fica em `/login` e a área autenticada em `/dashboard`. Os usuários de demonstração (`marina@demo.local`, `rafael@demo.local`) entram no seed da H03.1.
 
 ## MVP em uma frase
 

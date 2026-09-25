@@ -1,6 +1,3 @@
-// Modelos de domínio entram nas histórias seguintes (H02 em diante).
-// H01.1 só deixa o client gerável e o Postgres no ar.
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,77 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum Role {
+  OPERATOR
+  ADMIN
+}
+
+enum ActorType {
+  USER
+  AI
+  SYSTEM
+}
+
+enum AuditSource {
+  UI
+  TOOL
+  SYSTEM
+}
+
+enum AuditStatus {
+  SUCCESS
+  NOOP
+  VALIDATION_ERROR
+  DENIED
+  DOMAIN_ERROR
+  POLICY_VIOLATION
+  FAILED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         Role
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  auditLogsAsActor  AuditLog[] @relation("AuditActor")
+  auditLogsOnBehalf AuditLog[] @relation("AuditOnBehalf")
+
+  @@index([role])
+  @@index([active])
+}
+
+/// Append-only. A aplicação não atualiza nem apaga linhas.
+model AuditLog {
+  id               String      @id @default(cuid())
+  actorType        ActorType
+  actorUserId      String?
+  actor            User?       @relation("AuditActor", fields: [actorUserId], references: [id])
+  onBehalfOfUserId String?
+  onBehalfOf       User?       @relation("AuditOnBehalf", fields: [onBehalfOfUserId], references: [id])
+  source           AuditSource
+  action           String
+  toolName         String?
+  entityType       String?
+  entityId         String?
+  input            Json?
+  outputSummary    Json?
+  status           AuditStatus
+  errorCode        String?
+  durationMs       Int?
+  conversationId   String?
+  createdAt        DateTime    @default(now())
+
+  @@index([actorUserId])
+  @@index([onBehalfOfUserId])
+  @@index([action])
+  @@index([createdAt])
+  @@index([entityType, entityId])
+  @@index([conversationId])
 }

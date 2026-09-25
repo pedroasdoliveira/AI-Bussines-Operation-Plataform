@@ -12,3 +12,19 @@ main {
   margin: 4rem auto;
   padding: 0 1.5rem;
 }
+
+form {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 22rem;
+}
+
+input,
+button {
+  font: inherit;
+  padding: 0.4rem 0.5rem;
+}
+
+[role="alert"] {
+  color: #9b1c1c;
+}
