@@ -2,7 +2,7 @@
 
 Plataforma de operações para pequenos e-commerces em que um assistente de IA consulta pedidos, clientes, produtos, estoque e pagamentos e executa ações operacionais **exclusivamente por meio de ferramentas controladas**. A IA interpreta a intenção; o sistema mantém regras de negócio, autorização, auditoria e aprovação humana determinísticas. Não é um chatbot com acesso ao banco: é um sistema de negócio com uma camada inteligente.
 
-> Status: planejamento concluído (Lean Inception) e domínio aprovado (H00.1). Próximo passo: Fase 2 — `docs/architecture.md` (H00.2).
+> Status: H00.1 e H00.2 `done`. Onda 1 em andamento (H01.1 — base do projeto).
 
 ## Documentação
 
@@ -12,7 +12,18 @@ Plataforma de operações para pequenos e-commerces em que um assistente de IA c
 - [docs/roadmap.md](./docs/roadmap.md) — backlog por onda com histórias, critérios de aceite, owner e revisores.
 - [docs/adr/](./docs/adr/) — Architecture Decision Records (001 monólito modular, 002 PostgreSQL + Prisma, 003 fronteira IA/tools, 004 autenticação e papéis, 005 provedor Anthropic, 006 human-in-the-loop).
 - [docs/domain.md](./docs/domain.md) — linguagem ubíqua: entidades, máquinas de estado, regras parametrizadas, glossário, requisitos do seed.
-- `docs/architecture.md` — a produzir na Fase 2 (H00.2).
+- [docs/architecture.md](./docs/architecture.md) — stack, módulos, contrato de tool, erros, auditoria e testes.
+
+## Como subir a base (H01.1)
+
+```bash
+docker compose up -d
+cp .env.example .env
+npm install
+npm run dev
+```
+
+`npm test` roda o Vitest. `npm run lint` roda o ESLint. O Postgres de desenvolvimento escuta em `localhost:5432` (database `app`); o script de init também cria `app_test` para os testes de integração das próximas histórias.
 
 ## MVP em uma frase
 

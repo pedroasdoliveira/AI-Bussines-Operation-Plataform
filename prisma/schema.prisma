@@ -1,0 +1,11 @@
+// Modelos de domínio entram nas histórias seguintes (H02 em diante).
+// H01.1 só deixa o client gerável e o Postgres no ar.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
