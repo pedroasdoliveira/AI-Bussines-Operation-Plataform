@@ -2,7 +2,7 @@
 
 Plataforma de operações para pequenos e-commerces em que um assistente de IA consulta pedidos, clientes, produtos, estoque e pagamentos e executa ações operacionais **exclusivamente por meio de ferramentas controladas**. A IA interpreta a intenção; o sistema mantém regras de negócio, autorização, auditoria e aprovação humana determinísticas. Não é um chatbot com acesso ao banco: é um sistema de negócio com uma camada inteligente.
 
-> Status: H00.1 e H00.2 `done`. Onda 1 em andamento (H01.1 — base do projeto).
+> Status: onda 1 em andamento. H01.1 e H02.1 `done`. H02.2 (papéis) em `review`.
 
 ## Documentação
 
