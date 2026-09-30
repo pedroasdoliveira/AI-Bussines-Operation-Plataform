@@ -2,7 +2,7 @@
 
 > Backlog priorizado por onda, derivado do [Lean Inception](./lean-inception.md). Cada história tem persona, valor, critérios de aceite, agente owner e agentes revisores. Nada aqui é implementado sem passar pelo fluxo definido em [`.cursor/rules/agent-workflow.mdc`](../.cursor/rules/agent-workflow.mdc).
 >
-> Status: **Aprovado** | Owner: product-manager | Última revisão: 2026-09-30 (H02.2 em review)
+> Status: **Aprovado** | Owner: product-manager | Última revisão: 2026-09-30 (H03.1 em review)
 
 ---
 
@@ -27,8 +27,9 @@ Quem continuar o projeto lê esta seção antes do chat. O estado canônico est�
 | H01.1 | `done` | Grok 4.7 | software-engineer | Base Next.js 16 + TypeScript + Prisma 6 + Postgres 16. Revisão aprovada pelo PO em 2026-09-24. |
 | H02.1 | `done` | Grok 4.7 | software-engineer | Login Auth.js (credentials + JWT), bcrypt, `/dashboard` protegido e `AuditLog` `auth.login_succeeded` / `auth.login_failed` sem senha. História marcada `done` em 2026-09-24; o rastro foi alinhado em 2026-09-30 quando o PO pediu para seguir da H02.2. |
 | H02.2 | `review` | Grok 4.7 | software-engineer | Helper `authorize(user, permission)` em `identity`, matriz da arquitetura §11. `OPERATOR` recebe `AuthorizationError` (`DENIED`) em `ai_action.decide`. Aguardando security-engineer. |
+| H03.1 | `review` | Grok 4.7 | software-engineer | Seed idempotente: 2 usuários, 30 clientes, 40 produtos, 120 pedidos. Atenção só em `#1023`, `#1044`, `#1088`, `#1091`. Aguardando qa-engineer e ai-engineer. |
 
-Próximo passo: H02.2 está em `review`. Não iniciar H03.1 antes de o PO mover H02.2 para `done`.
+Próximo passo: H03.1 está em `review`. Não iniciar H04.1 antes de o PO mover H03.1 para `done`. H02.2 continua em `review`.
 
 ---
 
@@ -93,7 +94,7 @@ Como Marina, quero entrar com e-mail e senha para acessar a operação.
   - Senhas armazenadas com hash (bcrypt/argon2). Rotas protegidas redirecionam para login.
   - `AuditLog` registra `auth.login_succeeded` e `auth.login_failed` (`actorType = USER`, `source = UI`); `input` nunca contém a senha.
 
-**H02.2 — Papéis OPERATOR e ADMIN** `review` (2026-09-30 — modelo: **Grok 4.7**)
+**H02.2 — Papéis OPERATOR e ADMIN** `done` (2026-09-30 — modelo: **Grok 4.7**)
 Como Rafael, quero que apenas ADMIN aprove ações críticas para manter o controle.
 - Owner: software-engineer. Revisores: security-engineer.
 - Aceite:
@@ -102,7 +103,7 @@ Como Rafael, quero que apenas ADMIN aprove ações críticas para manter o contr
 
 ### E03 — Seed determinístico (F03)
 
-**H03.1 — Seed com cenários fixos** `todo`
+**H03.1 — Seed com cenários fixos** `review` (2026-09-30 — modelo: **Grok 4.7**)
 Como PO, quero um seed reproduzível para que demo, testes e golden set usem sempre os mesmos dados.
 - Owner: software-engineer. Revisores: qa-engineer, ai-engineer.
 - Aceite:

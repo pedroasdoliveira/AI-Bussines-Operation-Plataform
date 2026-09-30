@@ -79,3 +79,143 @@ model AuditLog {
   @@index([entityType, entityId])
   @@index([conversationId])
 }
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  PAID
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum OrderPriority {
+  NORMAL
+  HIGH
+}
+
+enum PaymentMethod {
+  CREDIT_CARD
+  PIX
+  BOLETO
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PaymentFailureReason {
+  INSUFFICIENT_FUNDS
+  CARD_DECLINED
+  EXPIRED
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+
+  @@index([name])
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  sku         String      @unique
+  name        String
+  description String?
+  category    String
+  price       Decimal     @db.Decimal(12, 2)
+  active      Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  inventory   Inventory?
+  orderItems  OrderItem[]
+
+  @@index([category])
+  @@index([active])
+}
+
+model Inventory {
+  id        String   @id @default(cuid())
+  productId String   @unique
+  product   Product  @relation(fields: [productId], references: [id])
+  available Int
+  minimum   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([available])
+}
+
+model Order {
+  id                 String        @id @default(cuid())
+  orderNumber        Int           @unique
+  customerId         String
+  customer           Customer      @relation(fields: [customerId], references: [id])
+  status             OrderStatus
+  priority           OrderPriority @default(NORMAL)
+  subtotal           Decimal       @db.Decimal(12, 2)
+  shippingFee        Decimal       @default(0) @db.Decimal(12, 2)
+  discount           Decimal       @default(0) @db.Decimal(12, 2)
+  total              Decimal       @db.Decimal(12, 2)
+  placedAt           DateTime
+  paidAt             DateTime?
+  expectedShipDate   DateTime?     @db.Date
+  shippedAt          DateTime?
+  deliveredAt        DateTime?
+  cancelledAt        DateTime?
+  cancellationReason String?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  items              OrderItem[]
+  payments           Payment[]
+
+  @@index([customerId])
+  @@index([status])
+  @@index([priority])
+  @@index([placedAt])
+  @@index([expectedShipDate])
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+  unitPrice Decimal  @db.Decimal(12, 2)
+  lineTotal Decimal  @db.Decimal(12, 2)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([orderId, productId])
+  @@index([productId])
+}
+
+model Payment {
+  id               String                @id @default(cuid())
+  orderId          String
+  order            Order                 @relation(fields: [orderId], references: [id])
+  attemptNumber    Int
+  method           PaymentMethod
+  amount           Decimal               @db.Decimal(12, 2)
+  status           PaymentStatus
+  failureReason    PaymentFailureReason?
+  gatewayReference String?
+  processedAt      DateTime?
+  refundedAt       DateTime?
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+
+  @@unique([orderId, attemptNumber])
+  @@index([orderId])
+  @@index([status])
+}

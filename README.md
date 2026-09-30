@@ -2,7 +2,7 @@
 
 Plataforma de operações para pequenos e-commerces em que um assistente de IA consulta pedidos, clientes, produtos, estoque e pagamentos e executa ações operacionais **exclusivamente por meio de ferramentas controladas**. A IA interpreta a intenção; o sistema mantém regras de negócio, autorização, auditoria e aprovação humana determinísticas. Não é um chatbot com acesso ao banco: é um sistema de negócio com uma camada inteligente.
 
-> Status: onda 1 em andamento. H01.1 e H02.1 `done`. H02.2 (papéis) em `review`.
+> Status: onda 1 em andamento. H01.1 e H02.1 `done`. H02.2 (papéis) e H03.1 (seed) em `review`.
 
 ## Documentação
 
@@ -25,7 +25,7 @@ npm run dev
 
 `npm test` roda o Vitest. `npm run lint` roda o ESLint. O Postgres de desenvolvimento escuta em `localhost:5432` (database `app`); o script de init também cria `app_test` para os testes de integração.
 
-Depois de `npx prisma migrate dev`, preencha `AUTH_SECRET` no `.env` (não commite). O login fica em `/login` e a área autenticada em `/dashboard`. Os usuários de demonstração (`marina@demo.local`, `rafael@demo.local`) entram no seed da H03.1.
+Depois de `npx prisma migrate dev`, preencha `AUTH_SECRET` no `.env` (não commite) e rode `npm run db:seed`. O login fica em `/login` e a área autenticada em `/dashboard`. Os usuários de demonstração são `marina@demo.local` (OPERATOR) e `rafael@demo.local` (ADMIN); a senha é `SEED_USER_PASSWORD` (no exemplo, `dev-only-change-me`).
 
 ## MVP em uma frase
 

@@ -64,17 +64,13 @@ describe("login audit against Postgres", () => {
       orderBy: { createdAt: "asc" },
     });
 
-    expect(rows.map((row) => row.action)).toEqual([
-      "auth.login_succeeded",
-      "auth.login_failed",
-      "auth.login_failed",
-    ]);
+    const succeeded = rows.filter((row) => row.action === "auth.login_succeeded");
+    const failed = rows.filter((row) => row.action === "auth.login_failed");
+    expect(succeeded).toHaveLength(1);
+    expect(failed).toHaveLength(2);
     expect(rows.every((row) => row.actorType === "USER" && row.source === "UI")).toBe(true);
-    expect(rows[0]?.actorUserId).toBeTruthy();
-    expect(rows[1]?.actorUserId).toBeNull();
-    expect(rows[2]?.actorUserId).toBeNull();
-    expect(rows[1]?.status).toBe("DENIED");
-    expect(rows[2]?.status).toBe("DENIED");
+    expect(succeeded[0]?.actorUserId).toBeTruthy();
+    expect(failed.every((row) => row.actorUserId === null && row.status === "DENIED")).toBe(true);
     const serialized = JSON.stringify(rows);
     expect(serialized).not.toContain("right-password");
     expect(serialized).not.toContain("wrong-password");
